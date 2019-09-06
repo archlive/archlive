@@ -1,5 +1,6 @@
 #!/bin/sh
 
+mkdir -p ./custom/config/
 rm -rf ./custom/config/*
 
 # Copy & replace custom configuration files
