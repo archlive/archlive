@@ -1,2 +1,5 @@
 *~
 archiso-*.tar.gz*
+custom/config/work
+custom/config/out
+custom/config/archiso.log

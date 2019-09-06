@@ -1,0 +1,5 @@
+[Added Associations]
+inode/directory=exo-file-manager.desktop
+x-scheme-handler/trash=exo-file-manager.desktop
+application/octet-stream=geany.desktop;
+application/x-alpm-package=org.gnome.FileRoller.desktop;

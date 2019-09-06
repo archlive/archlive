@@ -1,0 +1,4 @@
+
+[redtide]
+SigLevel = Optional TrustAll
+Server = https://archlive-aur.sourceforge.io

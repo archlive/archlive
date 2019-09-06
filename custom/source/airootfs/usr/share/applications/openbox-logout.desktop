@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Exec=oblogout
+Icon=system-log-out
+Categories=System;
+Name=Openbox Logout
+Comment=Openbox Logout

@@ -1,0 +1,13 @@
+# Default settings for user directories
+#
+# The values are relative pathnames from the home directory and
+# will be translated on a per-path-element basis into the users locale
+
+XDG_DOCUMENTS_DIR=$HOME/Documents
+XDG_DESKTOP_DIR=$HOME/Documents/Desktop
+XDG_DOWNLOAD_DIR=$HOME/Documents/Downloads
+XDG_MUSIC_DIR=$HOME/Documents/Music
+XDG_PICTURES_DIR=$HOME/Documents/Pictures
+XDG_PUBLICSHARE_DIR=$HOME/Documents/Public
+XDG_TEMPLATES_DIR=$HOME/Documents/Templates
+XDG_VIDEOS_DIR=$HOME/Documents/Videos
