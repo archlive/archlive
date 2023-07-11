@@ -1,41 +1,33 @@
-V=43
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-INSTALL_FILES=$(wildcard archiso/initcpio/install/*)
-HOOKS_FILES=$(wildcard archiso/initcpio/hooks/*)
-SCRIPT_FILES=$(wildcard archiso/initcpio/script/*)
+PREFIX ?= /usr/local
+BIN_DIR=$(DESTDIR)$(PREFIX)/bin
+DOC_DIR=$(DESTDIR)$(PREFIX)/share/doc/archiso
+PROFILE_DIR=$(DESTDIR)$(PREFIX)/share/archiso
 
-INSTALL_DIR=$(DESTDIR)/usr/lib/initcpio/install
-HOOKS_DIR=$(DESTDIR)/usr/lib/initcpio/hooks
-SCRIPT_DIR=$(DESTDIR)/usr/lib/initcpio
-
-DOC_FILES=$(wildcard docs/*)
-
-DOC_DIR=$(DESTDIR)/usr/share/doc/archiso
-
+DOC_FILES=$(wildcard docs/*) $(wildcard *.rst)
+SCRIPT_FILES=$(wildcard archiso/*) $(wildcard scripts/*.sh) $(wildcard .gitlab/ci/*.sh) \
+             $(wildcard configs/*/profiledef.sh) $(wildcard configs/*/airootfs/usr/local/bin/*)
 
 all:
 
-install: install-program install-initcpio install-examples install-doc
+check: shellcheck
 
-install-program:
-	install -D -m 755 archiso/mkarchiso $(DESTDIR)/usr/bin/mkarchiso
+shellcheck:
+	shellcheck -s bash $(SCRIPT_FILES)
 
-install-initcpio:
-	install -d $(SCRIPT_DIR) $(HOOKS_DIR) $(INSTALL_DIR)
-	install -m 755 -t $(SCRIPT_DIR) $(SCRIPT_FILES)
-	install -m 644 -t $(HOOKS_DIR) $(HOOKS_FILES)
-	install -m 644 -t $(INSTALL_DIR) $(INSTALL_FILES)
+install: install-scripts install-profiles install-doc
 
-install-examples:
-	install -d -m 755 $(DESTDIR)/usr/share/archiso/
-	cp -a --no-preserve=ownership configs $(DESTDIR)/usr/share/archiso/
+install-scripts:
+	install -vDm 755 archiso/mkarchiso -t "$(BIN_DIR)/"
+	install -vDm 755 scripts/run_archiso.sh "$(BIN_DIR)/run_archiso"
+
+install-profiles:
+	install -d -m 755 $(PROFILE_DIR)
+	cp -a --no-preserve=ownership configs $(PROFILE_DIR)/
 
 install-doc:
-	install -d $(DOC_DIR)
-	install -m 644 -t $(DOC_DIR) $(DOC_FILES)
+	install -vDm 644 $(DOC_FILES) -t $(DOC_DIR)
 
-dist:
-	git archive --format=tar --prefix=archiso-$(V)/ v$(V) | gzip -9 > archiso-$(V).tar.gz
-	gpg --detach-sign --use-agent archiso-$(V).tar.gz
-
-.PHONY: install install-program install-initcpio install-examples install-doc dist
+.PHONY: check install install-doc install-profiles install-scripts shellcheck
